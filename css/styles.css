@@ -1,0 +1,223 @@
+:root {
+    --primary-color: #E8A87C; /* 温暖的珊瑚色 */
+    --secondary-color: #41B3A3; /* 清新的青绿色 */
+    --accent-color: #E27D60; /* 暖橘色 */
+    --background-color: #FAF3E0; /* 柔和的米色 */
+    --text-color: #2C3E50; /* 深青灰色 */
+    --card-background: #FFFFFF; /* 纯白色 */
+}
+
+/* 重置和基础样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* 导航栏样式 */
+.navbar {
+    background-color: var(--card-background);
+    padding: 1rem 5%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--accent-color);
+}
+
+/* 英雄区域样式 */
+.hero {
+    margin-top: 80px;
+    padding: 4rem 5%;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    font-weight: 800;
+    background: linear-gradient(to right, #FFFFFF, #FAF3E0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+/* 最新播客区域 */
+.latest-podcasts {
+    padding: 4rem 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.podcast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.podcast-card {
+    background: var(--card-background);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.podcast-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+}
+
+.podcast-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.podcast-content {
+    padding: 1.5rem;
+}
+
+.podcast-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.podcast-meta {
+    font-size: 0.9rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.play-button {
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+
+.play-button:hover {
+    background: var(--accent-color);
+    transform: scale(1.05);
+}
+
+/* 装饰元素 */
+.decorative-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.circle-1 {
+    width: 200px;
+    height: 200px;
+    top: -100px;
+    right: 10%;
+}
+
+.circle-2 {
+    width: 150px;
+    height: 150px;
+    bottom: -50px;
+    left: 5%;
+}
+
+/* 品牌标识样式 */
+.brand-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.brand-title .chinese {
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .podcast-grid {
+        grid-template-columns: 1fr;
+    }
+}
