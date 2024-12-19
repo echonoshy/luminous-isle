@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo Podcast | 探索声音的世界</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 重置和基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            background-color: #ffffff;
+            padding: 1rem 5%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3436;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2d3436;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #6c5ce7;
+        }
+
+        /* 英雄区域样式 */
+        .hero {
+            margin-top: 80px;
+            padding: 4rem 5%;
+            background: linear-gradient(135deg, #6c5ce7 0%, #a88beb 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* 最新播客区域 */
+        .latest-podcasts {
+            padding: 4rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .podcast-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .podcast-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .podcast-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .podcast-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .podcast-content {
+            padding: 1.5rem;
+        }
+
+        .podcast-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .podcast-meta {
+            font-size: 0.9rem;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .play-button {
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .play-button:hover {
+            background: #5649c0;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .podcast-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="#" class="logo">Echo Podcast</a>
+            <div class="nav-links">
+                <a href="#home">首页</a>
+                <a href="#episodes">节目</a>
+                <a href="#about">关于</a>
+                <a href="#contact">联系我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>探索声音的无限可能</h1>
+            <p>精选高质量播客内容，带给你不一样的听觉盛宴</p>
+        </div>
+    </section>
+
+    <!-- 最新播客 -->
+    <section class="latest-podcasts">
+        <h2 class="section-title">最新节目</h2>
+        <div class="podcast-grid">
+            <!-- 播客卡片 1 -->
+            <div class="podcast-card">
+                <img src="https://picsum.photos/seed/1/300/200" alt="播客封面" class="podcast-image">
+                <div class="podcast-content">
+                    <h3 class="podcast-title">科技与未来</h3>
+                    <div class="podcast-meta">
+                        <span><i class="far fa-clock"></i> 45分钟</span>
+                        <span><i class="far fa-calendar"></i> 2024-12-19</span>
+                    </div>
+                    <button class="play-button">
+                        <i class="fas fa-play"></i> 立即收听
+                    </button>
+                </div>
+            </div>
+
+            <!-- 播客卡片 2 -->
+            <div class="podcast-card">
+                <img src="https://picsum.photos/seed/2/300/200" alt="播客封面" class="podcast-image">
+                <div class="podcast-content">
+                    <h3 class="podcast-title">音乐漫谈</h3>
+                    <div class="podcast-meta">
+                        <span><i class="far fa-clock"></i> 38分钟</span>
+                        <span><i class="far fa-calendar"></i> 2024-12-18</span>
+                    </div>
+                    <button class="play-button">
+                        <i class="fas fa-play"></i> 立即收听
+                    </button>
+                </div>
+            </div>
+
+            <!-- 播客卡片 3 -->
+            <div class="podcast-card">
+                <img src="https://picsum.photos/seed/3/300/200" alt="播客封面" class="podcast-image">
+                <div class="podcast-content">
+                    <h3 class="podcast-title">生活方式</h3>
+                    <div class="podcast-meta">
+                        <span><i class="far fa-clock"></i> 42分钟</span>
+                        <span><i class="far fa-calendar"></i> 2024-12-17</span>
+                    </div>
+                    <button class="play-button">
+                        <i class="fas fa-play"></i> 立即收听
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
