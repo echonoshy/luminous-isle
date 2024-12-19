@@ -39,3 +39,30 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 获取所有播放按钮
+    const playButtons = document.querySelectorAll('.play-button');
+
+    // 为每个播放按钮添加点击事件
+    playButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            // 获取音频相关数据
+            const episodeData = {
+                audioSrc: this.dataset.audioSrc,
+                title: this.dataset.episodeTitle,
+                duration: this.dataset.episodeDuration,
+                date: this.dataset.episodeDate,
+                description: this.dataset.episodeDescription,
+                cover: this.dataset.episodeCover
+            };
+
+            // 将数据存储到 localStorage
+            localStorage.setItem('currentEpisode', JSON.stringify(episodeData));
+
+            // 跳转到播放页面
+            window.location.href = 'player.html';
+        });
+    });
+});

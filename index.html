@@ -40,7 +40,7 @@
         <h2 class="section-title">最新节目</h2>
         <div class="podcast-grid">
             <!-- 播客卡片 1 -->
-            <div class="podcast-card">
+            <div class="podcast-card" data-episode-id="1">
                 <img src="https://picsum.photos/seed/1/300/200" alt="播客封面" class="podcast-image">
                 <div class="podcast-content">
                     <h3 class="podcast-title">科技与未来</h3>
@@ -48,7 +48,13 @@
                         <span><i class="far fa-clock"></i> 45分钟</span>
                         <span><i class="far fa-calendar"></i> 2024-12-19</span>
                     </div>
-                    <button class="play-button">
+                    <button class="play-button" 
+                            data-audio-src="audio/tech-future.mp3"
+                            data-episode-title="科技与未来"
+                            data-episode-duration="45:00"
+                            data-episode-date="2024-12-19"
+                            data-episode-description="在这一期节目中，我们深入探讨了人工智能的最新发展趋势，以及它将如何改变我们的未来生活。通过与行业专家的对话，我们共同展望了科技发展带来的机遇与挑战。"
+                            data-episode-cover="https://picsum.photos/seed/1/300/200">
                         <i class="fas fa-play"></i> 立即收听
                     </button>
                 </div>
