@@ -1,10 +1,12 @@
 :root {
-    --primary-color: #E8A87C; /* 温暖的珊瑚色 */
-    --secondary-color: #41B3A3; /* 清新的青绿色 */
-    --accent-color: #E27D60; /* 暖橘色 */
-    --background-color: #FAF3E0; /* 柔和的米色 */
+    --primary-color: #4d6bef; /* 米黄色 */
+    --secondary-color: #d4ea0dff; /* 金黄色 */
+    --accent-color: #0c7506; /* 番茄红 */
+    --background-color: #fffefe; /* 玉米色 */
     --text-color: #2C3E50; /* 深青灰色 */
     --card-background: #FFFFFF; /* 纯白色 */
+    --additional-color-1: #87CEEB; /* 天蓝色 */
+    --additional-color-2: #04f804; /* 苍绿色 */
 }
 
 /* 重置和基础样式 */
@@ -15,7 +17,7 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Comic Sans MS', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     line-height: 1.6;
     background-color: var(--background-color);
     color: var(--text-color);
@@ -85,7 +87,7 @@ body {
     font-size: 3.5rem;
     margin-bottom: 1rem;
     font-weight: 800;
-    background: linear-gradient(to right, #FFFFFF, #FAF3E0);
+    background: linear-gradient(to right, #FFFFFF, #FFF8DC);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -143,7 +145,7 @@ body {
     font-size: 1.2rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: var(--primary-color);
+    color: #494747; /* 浅黑色 */
 }
 
 .podcast-meta {
@@ -155,7 +157,7 @@ body {
 }
 
 .play-button {
-    background: var(--secondary-color);
+    background: #1941dfbf;;
     color: white;
     border: none;
     padding: 0.8rem 1.5rem;
@@ -170,8 +172,13 @@ body {
 }
 
 .play-button:hover {
-    background: var(--accent-color);
+    background: #3a57d1; /* 深一点的蓝色 */
     transform: scale(1.05);
+}
+
+.play-button:active {
+    background: #2e46a3; /* 更深的蓝色 */
+    transform: scale(1);
 }
 
 /* 装饰元素 */

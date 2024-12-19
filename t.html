@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Album Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .album-header {
+            text-align: center;
+        }
+
+        .album-cover {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            display: block;
+            border-radius: 10px;
+        }
+
+        .track-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .track-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .track-list li:last-child {
+            border-bottom: none;
+        }
+
+        .track-title {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .play-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .play-button:hover {
+            background: #0056b3;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="album-header">
+            <h1>My Favorite Album</h1>
+            <p>Artist: Various Artists</p>
+            <img src="album-cover.jpg" alt="Album Cover" class="album-cover">
+        </div>
+        <ul class="track-list">
+            <li>
+                <span class="track-title">Track 1 - Song of Dawn</span>
+                <button class="play-button" onclick="playTrack('track1.mp3')">Play</button>
+            </li>
+            <li>
+                <span class="track-title">Track 2 - Evening Star</span>
+                <button class="play-button" onclick="playTrack('track2.mp3')">Play</button>
+            </li>
+            <li>
+                <span class="track-title">Track 3 - Midnight Serenade</span>
+                <button class="play-button" onclick="playTrack('track3.mp3')">Play</button>
+            </li>
+        </ul>
+        <audio id="audio-player" controls>
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <script>
+        function playTrack(trackUrl) {
+            const audioPlayer = document.getElementById('audio-player');
+            audioPlayer.src = trackUrl;
+            audioPlayer.play();
+        }
+    </script>
+</body>
+</html>
