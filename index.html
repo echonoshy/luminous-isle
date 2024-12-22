@@ -402,6 +402,21 @@
             50% { opacity: 1; }
             100% { opacity: 0.6; }
         }
+
+        /* 添加移动端内容区域隐藏样式 */
+        @media (max-width: 767px) {
+            /* 当侧边栏显示时隐藏内容 */
+            .content.sidebar-visible {
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+            }
+
+            .content {
+                opacity: 1;
+                transition: opacity 0.3s ease;
+            }
+        }
     </style>
     <script>
         let albums = {};
@@ -564,6 +579,9 @@
                 sidebar.classList.toggle('show');
                 content.classList.toggle('with-sidebar');
                 toggleBtn.classList.toggle('sidebar-shown');
+                
+                // 添加内容区域的显示/隐藏切换
+                content.classList.toggle('sidebar-visible');
                 
                 // 更新按钮文本和样式
                 if (sidebar.classList.contains('show')) {
