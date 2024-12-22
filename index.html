@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Music Player</title>
+    <title>🏝️Luminous-Isle 光屿</title>
     <style>
         body {
             margin: 0;
@@ -111,10 +111,18 @@
             align-items: center;
             justify-content: space-between;
             padding: 10px 0;
-            flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
             border-bottom: 1px solid #ddd;  /* 更浅的分隔线 */
             margin: 0;  /* 移除外边距 */
+        }
+
+        .track span {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: left;
+            padding-left: 10px;  /* 添加左侧内边距 */
         }
 
         /* 最后一个 track 不显示分隔线 */
@@ -131,6 +139,7 @@
             cursor: pointer;
             transition: background-color 0.3s;
             min-width: 80px;
+            flex-shrink: 0; /* 防止按钮被压缩 */
         }
 
         .album-cover {
@@ -228,13 +237,15 @@
             }
 
             .track {
-                flex-direction: column;
-                align-items: stretch;
+                flex-direction: row; /* 改回横向布局 */
+                align-items: center;
                 padding: 12px 0;  /* 移动端稍微增加一点内边距 */
             }
 
             .track button {
-                width: 100%;
+                width: auto; /* 移除之前的 width: 100% */
+                padding: 8px 16px;
+                min-width: 60px; /* 稍微减小按钮的最小宽度 */
             }
 
             .content h2 {
