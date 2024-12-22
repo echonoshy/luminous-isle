@@ -52,11 +52,31 @@
             letter-spacing: 1px;
         }
 
+        .logo-img {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+            border-radius: 6px;
+        }
+
         .sidebar h1 span {
-            margin-left: 10px;
+            margin-left: 8px;
             font-weight: normal;
             font-size: 0.9em;
             color: #bbb;
+        }
+
+        @media (max-width: 767px) {
+            .sidebar h1 {
+                font-size: 1.2em;
+                text-align: center;
+                justify-content: center;
+            }
+
+            .logo-img {
+                width: 24px;
+                height: 24px;
+            }
         }
 
         .album-list {
@@ -338,10 +358,11 @@
 
         /* 新增的样式 */
         .toggle-sidebar {
+            display: none; /* 默认隐藏按钮 */
             position: fixed;
             left: 15px;
             top: 15px;
-            background: #1a1a1a;
+            background: rgba(26, 26, 26, 0.9);
             color: #fff;
             border: none;
             padding: 8px 12px;
@@ -352,14 +373,15 @@
             font-size: 1.2em;
             width: 40px;
             height: 40px;
-            display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .toggle-sidebar.sidebar-shown {
-            background: rgba(255, 255, 255, 0.2);
-            left: 15px; /* 保持在左侧 */
+        /* 只在移动端显示按钮 */
+        @media (max-width: 767px) {
+            .toggle-sidebar {
+                display: flex; /* 移动端才显示按钮 */
+            }
         }
 
         @media (max-width: 767px) {
@@ -559,7 +581,10 @@
 <body>
     <button class="toggle-sidebar" onclick="toggleSidebar()">☰</button>
     <div class="sidebar">
-        <h1>ECHO<span>Player</span></h1>
+        <h1>
+            <img src="./assets/images/echo-logo.png" alt="ECHO" class="logo-img">
+            ECHO<span>Player</span>
+        </h1>
         <ul class="album-list">
             <!-- 专辑列表将通过 JavaScript 动态生成 -->
         </ul>
