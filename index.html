@@ -391,18 +391,25 @@
         let isPlaying = false;
         let currentPlayingButton = null;
     
-        // 加载专辑数据
+        // 修改加载专辑数据的函数
         async function loadAlbums() {
             try {
-                const response = await fetch('/data/albums.json');
+                // 使用相对路径
+                const response = await fetch('./data/albums.json');
                 albums = await response.json();
-                // 生成专辑列表
                 const albumList = document.querySelector('.album-list');
                 albumList.innerHTML = Object.keys(albums).map(id => 
                     `<li id="album-${id}" onclick="showAlbum(${id})">${id}. ${albums[id].title}</li>`
                 ).join('');
+                
+                // 添加错误处理的日志
+                console.log('Albums loaded:', albums);
             } catch (error) {
                 console.error('Error loading albums:', error);
+                // 显示错误信息在页面上
+                document.querySelector('.album-list').innerHTML = `
+                    <li style="color: #ff6b6b;">Error loading albums. Please check console for details.</li>
+                `;
             }
         }
 
