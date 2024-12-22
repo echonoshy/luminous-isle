@@ -18,7 +18,7 @@
 
         /* 侧边栏样式优化 */
         .sidebar {
-            width: 100%;
+            width: 300px;  /* 增加默认宽度 */
             background: linear-gradient(to bottom, #1a1a1a, #1c3144);
             color: #fff;
             padding: 15px;
@@ -112,13 +112,13 @@
             padding: 15px;
             box-sizing: border-box;
             overflow-y: auto;
-            margin-left: 250px; /* 默认展示侧边栏时的边距 */
+            margin-left: 300px; /* 匹配侧边栏宽度 */
             transition: margin-left 0.3s ease;
             padding-top: 50px; /* 为顶部按钮留出空间 */
         }
 
         .content.with-sidebar {
-            margin-left: 250px;
+            margin-left: 300px; /* 匹配侧边栏宽度 */
         }
 
         .content h2 {
@@ -268,7 +268,7 @@
             }
 
             .sidebar {
-                width: 250px;
+                width: 300px;  /* 桌面端侧边栏宽度 */
                 height: 100vh;
                 overflow-y: auto;
             }
@@ -391,7 +391,7 @@
 
             .toggle-sidebar.sidebar-shown {
                 position: fixed; /* 改为 fixed */
-                left: 15px; /* 保持在左侧 */
+                left: 310px;  /* 调整汉堡按钮位置 */
                 background: rgba(26, 26, 26, 0.9); /* 更深的背景色 */
             }
         }
@@ -582,7 +582,7 @@
     <button class="toggle-sidebar" onclick="toggleSidebar()">☰</button>
     <div class="sidebar">
         <h1>
-            <img src="./assets/images/echo-logo.png" alt="ECHO" class="logo-img">
+            <img src="./assets/images/cover.webp" alt="ECHO" class="logo-img">
             ECHO<span>Player</span>
         </h1>
         <ul class="album-list">
