@@ -281,6 +281,10 @@
                 transform: translateX(0);
             }
 
+            .sidebar {
+                padding-top: 70px; /* 增加顶部空间，为按钮留位置 */
+            }
+
             .sidebar h1 {
                 font-size: 1.2em;
                 text-align: center;
@@ -326,13 +330,17 @@
             .player-controls {
                 margin: 10px;
             }
+
+            .toggle-sidebar.sidebar-shown {
+                position: absolute;
+            }
         }
 
         /* 新增的样式 */
         .toggle-sidebar {
             position: fixed;
-            left: 10px;
-            top: 10px;
+            left: 15px;
+            top: 15px;
             background: #1a1a1a;
             color: #fff;
             border: none;
@@ -340,17 +348,29 @@
             border-radius: 5px;
             cursor: pointer;
             z-index: 1000;
-            transition: left 0.3s;
+            transition: all 0.3s ease;
             font-size: 1.2em;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toggle-sidebar.sidebar-shown {
+            background: rgba(255, 255, 255, 0.2);
+            left: 15px; /* 保持在左侧 */
         }
 
         @media (max-width: 767px) {
-            .content.with-sidebar {
-                margin-left: 0;
+            .sidebar {
+                padding-top: 70px;
             }
-            
+
             .toggle-sidebar.sidebar-shown {
-                left: 260px;
+                position: fixed; /* 改为 fixed */
+                left: 15px; /* 保持在左侧 */
+                background: rgba(26, 26, 26, 0.9); /* 更深的背景色 */
             }
         }
 
@@ -512,10 +532,18 @@
             const toggleBtn = document.querySelector('.toggle-sidebar');
             
             if (window.innerWidth <= 767) {
-                // 移动端逻辑
                 sidebar.classList.toggle('show');
-                toggleBtn.textContent = sidebar.classList.contains('show') ? '×' : '☰';
+                content.classList.toggle('with-sidebar');
                 toggleBtn.classList.toggle('sidebar-shown');
+                
+                // 更新按钮文本和样式
+                if (sidebar.classList.contains('show')) {
+                    toggleBtn.innerHTML = 'x';
+                    toggleBtn.style.fontSize = '1.8em'; // 稍微加大关闭图标
+                } else {
+                    toggleBtn.innerHTML = '☰';
+                    toggleBtn.style.fontSize = '1.2em';
+                }
             }
         }
 
