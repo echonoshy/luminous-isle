@@ -1,48 +1,420 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luminous Isle 光屿</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="css/index.css">
+    <title>Simple Music Player</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;  /* 更改背景色 */
+            color: #333;
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column; /* 默认为垂直布局 */
+        }
+
+        .sidebar {
+            width: 100%;
+            background-color: #1a1a1a;
+            color: #fff;
+            padding: 15px;
+            box-sizing: border-box;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            transition: transform 0.3s ease;
+            z-index: 999;
+            padding-top: 50px; /* 为按钮留出空间 */
+            transform: none; /* 移除默认transform */
+        }
+
+        .sidebar.show {
+            transform: translateX(0);
+        }
+
+        /* 添加新的隐藏类 */
+        .sidebar.hide {
+            transform: translateX(-100%);
+        }
+
+        .sidebar h1 {
+            font-size: 1.5em;
+            margin: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar h1 span {
+            margin-left: 10px;
+            font-weight: normal;
+            font-size: 0.9em;
+            color: #bbb;
+        }
+
+        .album-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .album-list li {
+            padding: 15px 10px; /* 增加垂直内边距提升可点击区域 */
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .album-list li:hover {
+            background-color: #333;
+        }
+
+        .album-list li.active {
+            background-color: #222222;
+            font-weight: bold;
+        }
+
+        .content {
+            flex: 1;
+            padding: 15px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            margin-left: 250px; /* 默认展示侧边栏时的边距 */
+            transition: margin-left 0.3s ease;
+            padding-top: 50px; /* 为顶部按钮留出空间 */
+        }
+
+        .content.with-sidebar {
+            margin-left: 250px;
+        }
+
+        .content h2 {
+            margin-top: 0;
+        }
+
+        /* 添加内容容器样式 */
+        #album-details {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .track {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            flex-wrap: wrap;
+            gap: 8px;
+            border-bottom: 1px solid #ddd;  /* 更浅的分隔线 */
+            margin: 0;  /* 移除外边距 */
+        }
+
+        /* 最后一个 track 不显示分隔线 */
+        .track:last-child {
+            border-bottom: none;
+        }
+
+        .track button {
+            background-color: #1a1a1a;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;  /* 稍微减小按钮内边距 */
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            min-width: 80px;
+        }
+
+        .album-cover {
+            width: 100%;
+            max-width: 400px;  /* 增大封面图片尺寸 */
+            height: auto;
+            margin: 20px auto;
+            display: block;
+            border-radius: 10px;  /* 添加圆角 */
+        }
+
+        .no-selection {
+            text-align: center;
+            color: #424242;
+            font-size: 1.0em;
+            margin-top: 40px;
+        }
+
+        /* 调整播放器容器样式 */
+        .player-controls {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 10px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .player-controls button {
+            background-color: #1a1a1a;
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 0 5px;
+            min-width: 100px;
+        }
+
+        .player-controls button:hover {
+            background-color: #444;
+        }
+
+        #audio-player {
+            width: 100%;
+            margin: 15px auto;
+            max-width: 800px;
+            display: block;
+        }
+
+        /* 桌面端布局 */
+        @media (min-width: 768px) {
+            body {
+                flex-direction: row;
+            }
+
+            .sidebar {
+                width: 250px;
+                height: 100vh;
+                overflow-y: auto;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .player-controls {
+                position: static;
+                background: none;
+            }
+
+            .toggle-sidebar {
+                display: none;
+            }
+        }
+
+        /* 小屏幕设备优化 */
+        @media (max-width: 767px) {
+            .sidebar {
+                transform: translateX(-100%); /* 移动端默认隐藏 */
+            }
+
+            .content {
+                margin-left: 0; /* 移动端无边距 */
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .sidebar h1 {
+                font-size: 1.2em;
+                text-align: center;
+            }
+
+            .track {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 12px 0;  /* 移动端稍微增加一点内边距 */
+            }
+
+            .track button {
+                width: 100%;
+            }
+
+            .content h2 {
+                font-size: 1.5em;
+                text-align: center;
+            }
+
+            .player-controls {
+                display: flex;
+                justify-content: center;
+                gap: 15px;
+                padding: 15px;
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            }
+
+            #audio-player {
+                margin-bottom: 70px; /* 为固定定位的播放控件留出空间 */
+            }
+
+            .toggle-sidebar {
+                display: block; /* 移动端显示按钮 */
+            }
+
+            #album-details {
+                margin: 10px;
+            }
+
+            .player-controls {
+                margin: 10px;
+            }
+        }
+
+        /* 新增的样式 */
+        .toggle-sidebar {
+            position: fixed;
+            left: 10px;
+            top: 10px;
+            background: #1a1a1a;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: left 0.3s;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 767px) {
+            .content.with-sidebar {
+                margin-left: 0;
+            }
+            
+            .toggle-sidebar.sidebar-shown {
+                left: 260px;
+            }
+        }
+    </style>
+    <script>
+        let albums = {};
+        let currentAlbum = null;
+        let currentTrackIndex = 0;
+        let isAutoPlayEnabled = true; // 默认开启自动播放
+
+        // 加载专辑数据
+        async function loadAlbums() {
+            try {
+                const response = await fetch('/data/albums.json');
+                albums = await response.json();
+                // 生成专辑列表
+                const albumList = document.querySelector('.album-list');
+                albumList.innerHTML = Object.keys(albums).map(id => 
+                    `<li id="album-${id}" onclick="showAlbum(${id})">${id}. ${albums[id].title}</li>`
+                ).join('');
+            } catch (error) {
+                console.error('Error loading albums:', error);
+            }
+        }
+
+        // 页面加载时获取数据
+        window.addEventListener('DOMContentLoaded', () => {
+            loadAlbums();
+            const audioPlayer = document.getElementById('audio-player');
+            audioPlayer.addEventListener('ended', () => {
+                if (currentAlbum && 
+                    currentTrackIndex < currentAlbum.tracks.length - 1) {
+                    playNext();
+                }
+            });
+
+            // 在小屏幕下点击内容区域时关闭侧边栏
+            document.querySelector('.content').addEventListener('click', (e) => {
+                if (window.innerWidth <= 767) {
+                    const sidebar = document.querySelector('.sidebar');
+                    const content = document.querySelector('.content');
+                    const toggleBtn = document.querySelector('.toggle-sidebar');
+                    
+                    if (sidebar.classList.contains('show')) {
+                        sidebar.classList.remove('show');
+                        content.classList.remove('with-sidebar');
+                        toggleBtn.classList.remove('sidebar-shown');
+                        toggleBtn.textContent = '☰';
+                    }
+                }
+            });
+        });
+
+        function showAlbum(albumId) {
+            currentAlbum = albums[albumId];
+            currentTrackIndex = 0;
+
+            const albumDetails = document.getElementById('album-details');
+
+            albumDetails.innerHTML = `
+                <h2>${currentAlbum.title}</h2>
+                <p>Artist: ${currentAlbum.artist}</p>
+                <img src="${currentAlbum.coverImg}" alt="Album Cover" class="album-cover">
+                ${currentAlbum.tracks.map((track, index) => `
+                    <div class='track'>
+                        <span>${track.title}</span>
+                        <button onclick="playTrack(${index})">Play</button>
+                    </div>
+                `).join('')}
+            `;
+
+            document.querySelectorAll('.album-list li').forEach(li => li.classList.remove('active'));
+            document.getElementById(`album-${albumId}`).classList.add('active');
+        }
+
+        function playTrack(index) {
+            if (!currentAlbum) return;
+            currentTrackIndex = index;
+            const audioPlayer = document.getElementById('audio-player');
+            audioPlayer.src = currentAlbum.tracks[index].src;
+            audioPlayer.play();
+        }
+
+        function playPrevious() {
+            if (!currentAlbum || currentTrackIndex === 0) return;
+            playTrack(currentTrackIndex - 1);
+        }
+
+        function playNext() {
+            if (!currentAlbum || currentTrackIndex === currentAlbum.tracks.length - 1) return;
+            playTrack(currentTrackIndex + 1);
+        }
+
+        // 修改切换侧边栏的函数
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const content = document.querySelector('.content');
+            const toggleBtn = document.querySelector('.toggle-sidebar');
+            
+            if (window.innerWidth <= 767) {
+                // 移动端逻辑
+                sidebar.classList.toggle('show');
+                toggleBtn.textContent = sidebar.classList.contains('show') ? '×' : '☰';
+                toggleBtn.classList.toggle('sidebar-shown');
+            }
+        }
+
+    </script>
 </head>
 <body>
-    <!-- 导航栏 -->
-    <nav class="navbar">
-        <div class="navbar-content">
-            <a href="#" class="logo">
-                <div class="brand-title">
-                    Luminous Isle <span class="chinese">光屿</span>
-                </div>
-            </a>
-            <div class="nav-links">
-                <a href="#home">首页</a>
-                <a href="#episodes">节目</a>
-                <a href="#about">关于</a>
-                <a href="#contact">联系我们</a>
-            </div>
+    <button class="toggle-sidebar" onclick="toggleSidebar()">☰</button>
+    <div class="sidebar">
+        <h1>Music <span>Player</span></h1>
+        <ul class="album-list">
+            <!-- 专辑列表将通过 JavaScript 动态生成 -->
+        </ul>
+    </div>
+    <div class="content">
+        <div id="album-details" class="no-selection">
+            请选择一个专辑查看内容
         </div>
-    </nav>
-
-    <!-- 英雄区域 -->
-    <section class="hero">
-        <div class="decorative-circle circle-1"></div>
-        <div class="decorative-circle circle-2"></div>
-        <div class="hero-content">
-            <h1>Luminous Isle 光屿</h1>
-            <p>光是遇见就很美好</p>
+        <audio id="audio-player" controls style="width: 100%; margin-top: 20px;"></audio>
+        <div class="player-controls">
+            <button onclick="playPrevious()">上一首</button>
+            <button onclick="playNext()">下一首</button>
         </div>
-    </section>
-
-    <!-- 最新播客 -->
-    <section class="latest-podcasts">
-        <h2 class="section-title">最新节目</h2>
-        <div class="podcast-grid">
-            <!-- 播客卡片将通过 JavaScript 动态生成 -->
-        </div>
-    </section>
-
-    <script src="js/index.js"></script>
+    </div>
 </body>
 </html>

@@ -1,0 +1,22 @@
+{
+    "1": {
+        "title": "My Favorite Album",
+        "artist": "Various Artists",
+        "coverImg": "album1/cover.jpg",
+        "tracks": [
+            { "title": "1. Song of Dawn", "src": "album1/1.track1.mp3" },
+            { "title": "2. Evening Star", "src": "album1/2.track2.mp3" },
+            { "title": "3. Midnight Serenade", "src": "album1/3.track3.mp3" }
+        ]
+    },
+    "2": {
+        "title": "Another Great Album",
+        "artist": "Another Artist",
+        "coverImg": "album2/cover.jpg",
+        "tracks": [
+            { "title": "Track A", "src": "album2/track1.mp3" },
+            { "title": "Track B", "src": "album2/track2.mp3" },
+            { "title": "Track C", "src": "album2/track3.mp3" }
+        ]
+    }
+}
