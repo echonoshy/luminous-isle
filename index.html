@@ -5,19 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luminous Isle</title>
     <style>
+        /* 更新基础样式 */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;  /* 更改背景色 */
-            color: #333;
+            background-color: #f0f2f5;  /* 更改背景色 */
+            color: #2c3e50;
             display: flex;
             min-height: 100vh;
             flex-direction: column; /* 默认为垂直布局 */
         }
 
+        /* 侧边栏样式优化 */
         .sidebar {
             width: 100%;
-            background-color: #1a1a1a;
+            background: linear-gradient(to bottom, #1a1a1a, #2c3e50);
             color: #fff;
             padding: 15px;
             box-sizing: border-box;
@@ -29,6 +31,7 @@
             z-index: 999;
             padding-top: 50px; /* 为按钮留出空间 */
             transform: none; /* 移除默认transform */
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
         }
 
         .sidebar.show {
@@ -41,11 +44,12 @@
         }
 
         .sidebar h1 {
-            font-size: 1.5em;
+            font-size: 1.8em;
             margin: 0;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
+            letter-spacing: 1px;
         }
 
         .sidebar h1 span {
@@ -66,15 +70,20 @@
             margin: 5px 0;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
         }
 
         .album-list li:hover {
-            background-color: #333;
+            background-color: rgba(255,255,255,0.1);
+            border-left-color: #3498db;
+            padding-left: 15px;
         }
 
         .album-list li.active {
-            background-color: #222222;
+            background-color: rgba(255,255,255,0.15);
+            border-left-color: #3498db;
+            padding-left: 15px;
             font-weight: bold;
         }
 
@@ -104,16 +113,33 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #album-details:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
         }
 
         .track {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 0;
+            padding: 12px 15px;
             gap: 10px;
             border-bottom: 1px solid #ddd;  /* 更浅的分隔线 */
-            margin: 0;  /* 移除外边距 */
+            margin: 4px 0;  /* 移除外边距 */
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .track:hover {
+            background-color: #f8f9fa;
+        }
+
+        .track.playing {
+            background-color: #e8f4fd;
+            border-left: 3px solid #3498db;
         }
 
         .track span {
@@ -125,21 +151,39 @@
             padding-left: 10px;  /* 添加左侧内边距 */
         }
 
+        .track.playing span {
+            color: #3498db;
+            font-weight: 500;
+        }
+
         /* 最后一个 track 不显示分隔线 */
         .track:last-child {
             border-bottom: none;
         }
 
         .track button {
-            background-color: #1a1a1a;
+            background: linear-gradient(145deg, #1a1a1a, #2c3e50);
             color: #fff;
             border: none;
-            padding: 8px 16px;  /* 稍微减小按钮内边距 */
-            border-radius: 5px;
+            padding: 8px 20px;  /* 稍微减小按钮内边距 */
+            border-radius: 6px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
             min-width: 80px;
             flex-shrink: 0; /* 防止按钮被压缩 */
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .track button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background: linear-gradient(145deg, #2c3e50, #3498db);
+        }
+
+        .track.playing button {
+            animation: playingAnimation 2s infinite;
         }
 
         .album-cover {
@@ -163,25 +207,29 @@
             max-width: 800px;
             margin: 20px auto;
             padding: 10px;
-            background: #fff;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
         }
 
         .player-controls button {
-            background-color: #1a1a1a;
+            background: linear-gradient(145deg, #1a1a1a, #2c3e50);
             color: #fff;
             border: none;
             padding: 15px 25px;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
             margin: 0 5px;
             min-width: 100px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .player-controls button:hover {
-            background-color: #444;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background: linear-gradient(145deg, #2c3e50, #3498db);
         }
 
         #audio-player {
@@ -189,6 +237,8 @@
             margin: 15px auto;
             max-width: 800px;
             display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
 
         /* 桌面端布局 */
@@ -303,6 +353,13 @@
                 left: 260px;
             }
         }
+
+        /* 添加正在播放的动画效果 */
+        @keyframes playingAnimation {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
     </style>
     <script>
         let albums = {};
@@ -386,12 +443,17 @@
         // 新的播放控制函数
         function togglePlay(index, button) {
             const audioPlayer = document.getElementById('audio-player');
-        
+            const allTracks = document.querySelectorAll('.track');
+            
+            // 移除所有 track 的 playing 类
+            allTracks.forEach(track => track.classList.remove('playing'));
+            
             // 如果点击的是新的曲目
             if (currentTrackIndex !== index) {
                 // 重置之前的按钮状态
                 if (currentPlayingButton) {
                     currentPlayingButton.textContent = 'Play';
+                    currentPlayingButton.closest('.track').classList.remove('playing');
                 }
                 currentTrackIndex = index;
                 audioPlayer.src = currentAlbum.tracks[index].src;
@@ -399,14 +461,17 @@
                 isPlaying = true;
                 button.textContent = 'Pause';
                 currentPlayingButton = button;
+                button.closest('.track').classList.add('playing');
             } else {
                 // 切换同一首歌的播放/暂停
                 if (isPlaying) {
                     audioPlayer.pause();
                     button.textContent = 'Play';
+                    button.closest('.track').classList.remove('playing');
                 } else {
                     audioPlayer.play();
                     button.textContent = 'Pause';
+                    button.closest('.track').classList.add('playing');
                 }
                 isPlaying = !isPlaying;
             }
