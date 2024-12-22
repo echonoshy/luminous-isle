@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏝️Luminous-Isle 光屿</title>
+    <title>Luminous Isle</title>
     <style>
         body {
             margin: 0;
@@ -310,6 +310,10 @@
         let currentTrackIndex = 0;
         let isAutoPlayEnabled = true; // 默认开启自动播放
 
+        // 添加新的状态变量
+        let isPlaying = false;
+        let currentPlayingButton = null;
+    
         // 加载专辑数据
         async function loadAlbums() {
             try {
@@ -330,6 +334,9 @@
             loadAlbums();
             const audioPlayer = document.getElementById('audio-player');
             audioPlayer.addEventListener('ended', () => {
+                if (currentPlayingButton) {
+                    currentPlayingButton.textContent = 'Play';
+                }
                 if (currentAlbum && 
                     currentTrackIndex < currentAlbum.tracks.length - 1) {
                     playNext();
@@ -356,23 +363,53 @@
         function showAlbum(albumId) {
             currentAlbum = albums[albumId];
             currentTrackIndex = 0;
+            isPlaying = false; // 重置播放状态
+            currentPlayingButton = null;
 
             const albumDetails = document.getElementById('album-details');
 
             albumDetails.innerHTML = `
                 <h2>${currentAlbum.title}</h2>
                 <p>Artist: ${currentAlbum.artist}</p>
-                <img src="${currentAlbum.coverImg}" alt="Album Cover" class="album-cover">
                 ${currentAlbum.tracks.map((track, index) => `
                     <div class='track'>
                         <span>${track.title}</span>
-                        <button onclick="playTrack(${index})">Play</button>
+                        <button onclick="togglePlay(${index}, this)">Play</button>
                     </div>
                 `).join('')}
             `;
 
             document.querySelectorAll('.album-list li').forEach(li => li.classList.remove('active'));
             document.getElementById(`album-${albumId}`).classList.add('active');
+        }
+
+        // 新的播放控制函数
+        function togglePlay(index, button) {
+            const audioPlayer = document.getElementById('audio-player');
+        
+            // 如果点击的是新的曲目
+            if (currentTrackIndex !== index) {
+                // 重置之前的按钮状态
+                if (currentPlayingButton) {
+                    currentPlayingButton.textContent = 'Play';
+                }
+                currentTrackIndex = index;
+                audioPlayer.src = currentAlbum.tracks[index].src;
+                audioPlayer.play();
+                isPlaying = true;
+                button.textContent = 'Pause';
+                currentPlayingButton = button;
+            } else {
+                // 切换同一首歌的播放/暂停
+                if (isPlaying) {
+                    audioPlayer.pause();
+                    button.textContent = 'Play';
+                } else {
+                    audioPlayer.play();
+                    button.textContent = 'Pause';
+                }
+                isPlaying = !isPlaying;
+            }
         }
 
         function playTrack(index) {
@@ -385,12 +422,22 @@
 
         function playPrevious() {
             if (!currentAlbum || currentTrackIndex === 0) return;
-            playTrack(currentTrackIndex - 1);
+            if (currentPlayingButton) {
+                currentPlayingButton.textContent = 'Play';
+            }
+            const prevIndex = currentTrackIndex - 1;
+            const prevButton = document.querySelectorAll('.track button')[prevIndex];
+            togglePlay(prevIndex, prevButton);
         }
 
         function playNext() {
             if (!currentAlbum || currentTrackIndex === currentAlbum.tracks.length - 1) return;
-            playTrack(currentTrackIndex + 1);
+            if (currentPlayingButton) {
+                currentPlayingButton.textContent = 'Play';
+            }
+            const nextIndex = currentTrackIndex + 1;
+            const nextButton = document.querySelectorAll('.track button')[nextIndex];
+            togglePlay(nextIndex, nextButton);
         }
 
         // 修改切换侧边栏的函数
@@ -412,7 +459,7 @@
 <body>
     <button class="toggle-sidebar" onclick="toggleSidebar()">☰</button>
     <div class="sidebar">
-        <h1>Music <span>Player</span></h1>
+        <h1>ECHO<span>Player</span></h1>
         <ul class="album-list">
             <!-- 专辑列表将通过 JavaScript 动态生成 -->
         </ul>
