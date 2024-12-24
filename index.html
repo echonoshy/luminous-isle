@@ -400,7 +400,7 @@
         @keyframes playingAnimation {
             0% { opacity: 0.6; }
             50% { opacity: 1; }
-            100% { opacity: 0.6; }
+            100% { opacity: 6; }
         }
 
         /* 添加移动端内容区域隐藏样式 */
@@ -427,6 +427,7 @@
         // 添加新的状态变量
         let isPlaying = false;
         let currentPlayingButton = null;
+        let currentTrackUrl = null; // 添加这行来跟踪当前播放的音频 URL
     
         // 修改加载专辑数据的函数
         async function loadAlbums() {
@@ -508,19 +509,21 @@
         function togglePlay(index, button) {
             const audioPlayer = document.getElementById('audio-player');
             const allTracks = document.querySelectorAll('.track');
+            const newTrackUrl = currentAlbum.tracks[index].src;
             
             // 移除所有 track 的 playing 类
             allTracks.forEach(track => track.classList.remove('playing'));
             
-            // 如果点击的是新的曲目
-            if (currentTrackIndex !== index) {
+            // 如果是新的曲目或者第一次播放
+            if (currentTrackUrl !== newTrackUrl) {
                 // 重置之前的按钮状态
                 if (currentPlayingButton) {
                     currentPlayingButton.textContent = 'Play';
                     currentPlayingButton.closest('.track').classList.remove('playing');
                 }
                 currentTrackIndex = index;
-                audioPlayer.src = currentAlbum.tracks[index].src;
+                currentTrackUrl = newTrackUrl;
+                audioPlayer.src = newTrackUrl;
                 audioPlayer.play();
                 isPlaying = true;
                 button.textContent = 'Pause';
